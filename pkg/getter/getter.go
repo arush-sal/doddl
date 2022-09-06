@@ -16,6 +16,7 @@ type Droplet struct {
 	Name   string   `json:"name,omitempty"`
 	Status string   `json:"status,omitempty"`
 	Tags   []string `json:"tags,omitempty"`
+	IPv4   string   `json:"ip,omitempty"`
 }
 
 // Get a new DO Client
@@ -70,6 +71,13 @@ func (do *DOClient) DropletListAll() []Droplet {
 			Status: v.Status,
 			Tags:   v.Tags,
 		}
+
+		for _, network := range v.Networks.V4 {
+			if network.Type == "public" {
+				d.IPv4 = network.IPAddress
+			}
+		}
+
 		list = append(list, d)
 	}
 
@@ -89,6 +97,13 @@ func (do *DOClient) DropletTags() []Droplet {
 				Status: v.Status,
 				Tags:   v.Tags,
 			}
+
+			for _, network := range v.Networks.V4 {
+				if network.Type == "public" {
+					d.IPv4 = network.IPAddress
+				}
+			}
+
 			list = append(list, d)
 		}
 	}
@@ -109,6 +124,13 @@ func (do *DOClient) DropletWithoutAnyTag() []Droplet {
 				Status: v.Status,
 				Tags:   v.Tags,
 			}
+
+			for _, network := range v.Networks.V4 {
+				if network.Type == "public" {
+					d.IPv4 = network.IPAddress
+				}
+			}
+
 			list = append(list, d)
 		}
 	}
@@ -130,6 +152,13 @@ func (do *DOClient) DropletWithSpecificTag(t string) []Droplet {
 					Status: v.Status,
 					Tags:   v.Tags,
 				}
+
+				for _, network := range v.Networks.V4 {
+					if network.Type == "public" {
+						d.IPv4 = network.IPAddress
+					}
+				}
+
 				list = append(list, d)
 			}
 		}
@@ -149,7 +178,9 @@ func (do *DOClient) StoppedDroplets(ds []Droplet) []Droplet {
 				Name:   v.Name,
 				Status: v.Status,
 				Tags:   v.Tags,
+				IPv4:   v.IPv4,
 			}
+
 			list = append(list, d)
 		}
 	}
@@ -182,6 +213,13 @@ func (do *DOClient) DropletWithoutSpecificTag(tags []string) []Droplet {
 				Status: v.Status,
 				Tags:   v.Tags,
 			}
+
+			for _, network := range v.Networks.V4 {
+				if network.Type == "public" {
+					d.IPv4 = network.IPAddress
+				}
+			}
+
 			list = append(list, d)
 		}
 	}
