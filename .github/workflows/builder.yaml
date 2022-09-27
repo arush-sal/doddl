@@ -12,7 +12,7 @@ on:
 
 env:
   RUN_ENV: ${{ github.event.inputs.runenv }}
-  RUN_WORKFLOW: true
+  RUN_WORKFLOW: "true"
 
 jobs:
   set_runenv:
@@ -40,6 +40,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: ${{ env.RUN_WORKFLOW == "true"}}
+    if: $RUN_WORKFLOW == "true"
     steps:
       - run: echo "Voila!"
