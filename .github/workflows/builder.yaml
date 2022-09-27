@@ -12,12 +12,13 @@ on:
 
 env:
   RUN_ENV: ${{ github.event.inputs.runenv }}
-  RUN_WORKFLOW: "true"
 
 jobs:
   set_runenv:
     if: github.event_name == 'repository_dispatch'
     runs-on: ubuntu-latest
+    outputs:
+      RUN_WORKFLOW: ${{ env.RUN_WORKFLOW }}
     steps:
       - name: Set RUN_ENV for Repo Dispatch
         run: |
@@ -41,6 +42,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: contains(${{ env.RUN_WORKFLOW }}, 'true')
+    if: contains(needs.isRelease.outputs.RUN_WORKFLOW, 'true')
     steps:
       - run: echo "Voila!"
