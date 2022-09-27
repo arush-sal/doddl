@@ -36,11 +36,9 @@ jobs:
             echo RUN_WORKFLOW="false" >> $GITHUB_ENV
             ;;
           esac
-
-          echo $RUN_ENV
-
   test:
     runs-on: ubuntu-latest
+    needs: [set_runenv]
     if: contains(needs.isRelease.outputs.RUN_WORKFLOW, 'true')
     steps:
       - run: echo "Voila!"
