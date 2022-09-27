@@ -12,22 +12,34 @@ on:
 
 env:
   RUN_ENV: ${{ github.event.inputs.runenv }}
+  RUN_WORKFLOW: true
 
 jobs:
-  test:
+  set_runenv:
+    if: github.event_name == 'repository_dispatch'
     runs-on: ubuntu-latest
-
     steps:
       - name: Set RUN_ENV for Repo Dispatch
-        if: github.event_name == 'repository_dispatch' && ${{ github.event.client_payload.env }} != ''
         run: |
-          case ${{ github.event.client_payload.env }} in
+          export ENV="${{ github.event.client_payload.env }}"
+          case $ENV in
           development)
             export RUN_ENV=dev,devtestconstants
+            echo "RUN_ENV is $RUN_ENV"
+            ;;
+          load)
+
             ;;
           *)
             echo "We only need to set this for Dev Env"
+            export RUN_WORKFLOW="false"
             ;;
           esac
 
           echo $RUN_ENV
+
+  test:
+    runs-on: ubuntu-latest
+    if: ${{ env.RUN_WORKFLOW == "true"}}
+    steps:
+      - run: echo "Voila!"
