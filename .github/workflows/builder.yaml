@@ -41,6 +41,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: contains("true", $RUN_WORKFLOW)
+    if: contains('true', $RUN_WORKFLOW)
     steps:
       - run: echo "Voila!"
