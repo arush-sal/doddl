@@ -41,6 +41,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: ${{ $RUN_WORKFLOW == "true" }}
+    if: ${{ env.RUN_WORKFLOW }} == "true"
     steps:
       - run: echo "Voila!"
