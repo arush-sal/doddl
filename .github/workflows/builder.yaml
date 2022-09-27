@@ -33,7 +33,7 @@ jobs:
             ;;
           *)
             echo "We only need to set this for Dev Env"
-            export RUN_WORKFLOW="false"
+            echo RUN_WORKFLOW="false" >> $GITHUB_ENV
             ;;
           esac
 
@@ -41,6 +41,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: contains($RUN_WORKFLOW, 'true')
+    if: contains(${{ env.RUN_WORKFLOW }}, 'true')
     steps:
       - run: echo "Voila!"
