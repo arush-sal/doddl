@@ -17,14 +17,14 @@ jobs:
   set_runenv:
     runs-on: ubuntu-latest
     outputs:
-      RUN_WORKFLOW: ${{ steps.internal.outputs.RUN_WORKFLOW }}
+      RUN_WORKFLOW: ${{ steps.dispatch.outputs.RUN_WORKFLOW }}
     steps:
       - name: Set RUN_ENV for Repo Dispatch
         id: dispatch
         run: |
           case ${{ github.event.inputs.runenv }} in
           development)
-            echo "::set-output name=RUN_WORKFLOW::true"
+            echo "::set-output name=RUN_WORKFLOW::'true'"
             ;;
           load)
             echo "::set-output name=RUN_WORKFLOW::true"
