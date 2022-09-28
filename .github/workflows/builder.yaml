@@ -23,12 +23,9 @@ jobs:
         id: dispatch
         run: |
           case ${{ github.event.inputs.runenv }} in
-          development || load)
+          "development" || "load")
             echo "::set-output name=RUN_WORKFLOW::'true'"
             ;;
-          # load)
-          #   echo "::set-output name=RUN_WORKFLOW::true"
-          #   ;;
           *)
             echo "::set-output name=RUN_WORKFLOW::false"
             ;;
