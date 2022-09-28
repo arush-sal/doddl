@@ -36,6 +36,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: [set_runenv]
-    if: contains(needs.isRelease.outputs.RUN_WORKFLOW, 'true')
+    if: contains(needs.set_runenv.outputs.RUN_WORKFLOW, 'true')
     steps:
       - run: echo "Voila!"
