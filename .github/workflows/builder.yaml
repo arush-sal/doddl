@@ -23,8 +23,11 @@ jobs:
         id: dispatch
         run: |
           case ${{ github.event.inputs.runenv }} in
-          "development" || "load")
+          development)
             echo "::set-output name=RUN_WORKFLOW::'true'"
+            ;;
+          load)
+            echo "::set-output name=RUN_WORKFLOW::true"
             ;;
           *)
             echo "::set-output name=RUN_WORKFLOW::false"
@@ -33,6 +36,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: [set_runenv]
-    if: contains(needs.set_runenv.outputs.RUN_WORKFLOW, 'true')
+    if: startsWith(github.ref, 'refs/heads/master') && contains(needs.set_runenv.outputs.RUN_WORKFLOW, 'true')
     steps:
       - run: echo "Voila!"
