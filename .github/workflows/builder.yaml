@@ -17,23 +17,20 @@ jobs:
   set_runenv:
     runs-on: ubuntu-latest
     outputs:
-      RUN_WORKFLOW: ${{ env.RUN_WORKFLOW }}
+      RUN_WORKFLOW: ${{ steps.internal.outputs.RUN_WORKFLOW }}
     steps:
       - name: Set RUN_ENV for Repo Dispatch
+        id: dispatch
         run: |
-          # export ENV="${{ github.event.client_payload.env }}"
-          export ENV="${{ github.event.inputs.runenv }}"
-          case $ENV in
+          case ${{ github.event.inputs.runenv }} in
           development)
-            export RUN_ENV=dev,devtestconstants
-            echo "RUN_ENV is $RUN_ENV"
+            echo "::set-output name=RUN_WORKFLOW::true"
             ;;
           load)
-
+            echo "::set-output name=RUN_WORKFLOW::true"
             ;;
           *)
-            echo "We only need to set this for Dev Env"
-            echo RUN_WORKFLOW="false" >> $GITHUB_ENV
+            echo "::set-output name=RUN_WORKFLOW::false"
             ;;
           esac
   test:
